@@ -1,8 +1,8 @@
 package jp.co.ctc_g.javaee_rest_sample.presentation;
 
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -14,7 +14,7 @@ import jp.co.ctc_g.javaee_rest_sample.service.domain.Movie;
 @Path("movies")
 public class MovieResource {
 
-    @EJB
+    @Inject
     private MovieService service;
 
     @GET

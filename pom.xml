@@ -42,7 +42,7 @@
         <dependency>
             <groupId>oracle.jdbc</groupId>
             <artifactId>ojdbc6</artifactId>
-            <version>1.5.0_24</version>
+            <version>1.5.0</version>
             <scope>system</scope>
             <systemPath>${basedir}/m2repo/ojdbc6.jar</systemPath>
         </dependency>
@@ -116,8 +116,37 @@
                                 <resource>
                                     <directory>src/test/resources</directory>
                                 </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-util-to-embedded</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/embedded-classes/jp/co/ctc_g/javaee_rest_sample/integration/util</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
                                 <resource>
                                     <directory>target/test-classes/jp/co/ctc_g/javaee_rest_sample/integration/util</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-mock-to-embedded</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/embedded-classes/jp/co/ctc_g/javaee_rest_sample/integration/dao/mock</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>target/test-classes/jp/co/ctc_g/javaee_rest_sample/integration/dao/mock</directory>
                                 </resource>
                             </resources>
                         </configuration>

@@ -1,8 +1,8 @@
 package jp.co.ctc_g.javaee_rest_sample.service;
 
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import jp.co.ctc_g.javaee_rest_sample.integration.dao.MovieDao;
 import jp.co.ctc_g.javaee_rest_sample.service.domain.Movie;
 
@@ -10,7 +10,7 @@ import jp.co.ctc_g.javaee_rest_sample.service.domain.Movie;
 public class MovieServiceImpl
         implements MovieService {
 
-    @EJB
+    @Inject
     private MovieDao dao;
 
     @Override

@@ -21,10 +21,8 @@ public class MovieDaoImplTest {
 
     @BeforeClass
     public static void initContainer() throws Exception {
-        Map<String, Object> props=new HashMap<String, Object>();
+        Map<String, Object> props=new HashMap<>();
         props.put(EJBContainer.MODULES, new File("target/embedded-classes"));
-//        props.put("org.glassfish.ejb.embedded.glassfish.instance.root","./src/test/testing-domain");
-//        props.put("org.glassfish.ejb.embedded.glassfish.web.http.port","");
         ec = EJBContainer.createEJBContainer(props);
         ctx = ec.getContext();
     }
@@ -40,7 +38,6 @@ public class MovieDaoImplTest {
 
     @Test
     public void findAllTest() throws Exception {
-//        MovieDao dao = (MovieDao) ctx.lookup("java:global/embedded-classes/MovieDaoImpl!jp.co.ctc_g.javaee_rest_sample.integration.dao.MovieDaoImpl");
         MovieDao dao = (MovieDao) ctx.lookup("java:global/embedded-classes/MovieDaoImpl");
         List<Movie> actual = dao.findAll();
         assertThat(actual.size(), is(4));

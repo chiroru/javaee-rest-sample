@@ -16,6 +16,13 @@
     
     <dependencies>
         <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>2.4.9</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
@@ -64,9 +71,28 @@
         <testResources>
             <testResource>
                 <directory>src/test/resources</directory>
+                <filtering>true</filtering>
             </testResource>
         </testResources>
         <plugins>
+            <plugin>
+                <groupId>org.kuali.maven.plugins</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>2.0.1</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <locations>
+                                <location>${basedir}/src/test/resources/jdbc.properties</location>
+                            </locations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -231,7 +257,32 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+<!--      <plugin>
+        <groupId>org.glassfish.maven.plugin</groupId>
+        <artifactId>maven-glassfish-plugin</artifactId>
+        <version>2.1</version>
+        <configuration>
+           ドメイン作成時に指定したユーザ 
+          <user>admin</user>
+           GlassFishのインストール先 
+          <glassfishDirectory>C:/app/glassfish3</glassfishDirectory>
+           ドメイン作成時に指定したパスワード 
+          <adminPassword>admin</adminPassword>
+          <debug>true</debug>
+          <echo>true</echo>
+          <components>
+          <component>
+          <name>${project.artifactId}</name>
+          <artifact>${project.build.directory}/${project.build.finalName}.war</artifact>
+          </component>
+          </components>
+          <domain>
+            <name>my_domain</name>
+            <adminPort>4848</adminPort>
+          </domain>
+        </configuration>
+      </plugin>-->
+<!--            <plugin>
                 <groupId>org.glassfish.embedded</groupId>
                 <artifactId>maven-embedded-glassfish-plugin</artifactId>
                 <version>4.0</version>
@@ -245,6 +296,7 @@
                         <https-listener>8181</https-listener>
                     </ports>
                     <autoDelete>true</autoDelete>
+                    <configFile>${basedir}/src/test/resources/domain.xml</configFile>
                 </configuration>
                 <executions>
            <execution>
@@ -276,8 +328,7 @@
               </goals>
            </execution>
         </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
-
 </project>

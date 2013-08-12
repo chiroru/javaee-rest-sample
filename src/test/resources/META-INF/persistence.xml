@@ -9,10 +9,10 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <properties>
       <class>jp.co.ctc_g.javaee_rest_sample.service.domain.Movie</class>
-      <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@127.0.0.1:1521:XE"/>
-      <property name="javax.persistence.jdbc.user" value="TEST"/>
-      <property name="javax.persistence.jdbc.password" value="TEST"/>
+      <property name="javax.persistence.jdbc.driver" value="${jdbc.driver}"/>
+      <property name="javax.persistence.jdbc.url" value="${jdbc.url}"/>
+      <property name="javax.persistence.jdbc.user" value="${jdbc.username}"/>
+      <property name="javax.persistence.jdbc.password" value="${jdbc.password}"/>
     </properties>
   </persistence-unit>
 </persistence>

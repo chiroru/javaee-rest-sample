@@ -1,46 +1,37 @@
 package jp.co.ctc_g.javaee_rest_sample.integration.dao;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.ejb.embeddable.EJBContainer;
-import javax.naming.Context;
+import jp.co.ctc_g.javaee_rest_sample.util.integration.dao.EntityManagerResource;
 import jp.co.ctc_g.javaee_rest_sample.service.domain.Movie;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import mockit.Deencapsulation;
 
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.Test;
 
 public class MovieDaoImplTest {
 
-    private static EJBContainer ec=null;
-    private static Context ctx=null;
+    private final static String PERSISTENCE_UNIT_NAME = "MoviePUTEST";
+
+    private static MovieDao dao;
+
+    @ClassRule
+    public static EntityManagerResource emr
+            = new EntityManagerResource(PERSISTENCE_UNIT_NAME);
 
     @BeforeClass
-    public static void initContainer() throws Exception {
-        Map<String, Object> props=new HashMap<>();
-        props.put(EJBContainer.MODULES, new File("target/embedded-classes"));
-        ec = EJBContainer.createEJBContainer(props);
-        ctx = ec.getContext();
-    }
-
-
-    @AfterClass
-    public static void closeContainer() throws Exception {
-        if(ctx!=null)
-            ctx.close();
-        if(ec!=null)
-            ec.close();
+    public static void setUpClass() {
+        dao = new MovieDaoImpl();
+        Deencapsulation.setField(dao, emr.getEntityManager());
     }
 
     @Test
-    public void findAllTest() throws Exception {
-        MovieDao dao = (MovieDao) ctx.lookup("java:global/embedded-classes/MovieDaoImpl");
+    public void DBに登録済みの全データを検索できる()
+            throws Exception {
         List<Movie> actual = dao.findAll();
+        System.out.println(actual.size());
         assertThat(actual.size(), is(4));
     }
-
 }

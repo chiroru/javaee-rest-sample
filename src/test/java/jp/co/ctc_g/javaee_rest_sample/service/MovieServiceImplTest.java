@@ -16,13 +16,13 @@ import org.junit.Before;
 
 public class MovieServiceImplTest {
 
-    private static MovieService service;
+    private MovieService service;
 
     @Mocked
     MovieDao dao;
 
     @Before
-    public void setUpClass() {
+    public void setUp() {
         service = new MovieServiceImpl();
         Deencapsulation.setField(service, dao);
     }

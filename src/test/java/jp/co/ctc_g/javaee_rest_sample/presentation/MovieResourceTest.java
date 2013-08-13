@@ -14,13 +14,13 @@ import org.junit.Test;
 
 public class MovieResourceTest {
 
-    private static MovieResource resource;
+    private MovieResource resource;
 
     @Mocked
     MovieService service;
 
     @Before
-    public void setUpClass() {
+    public void setUp() {
         resource = new MovieResource();
         Deencapsulation.setField(resource, service);
     }

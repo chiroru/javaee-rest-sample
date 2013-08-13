@@ -10,7 +10,7 @@ import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,14 +19,14 @@ public class MovieDaoImplTest {
 
     private final static String PERSISTENCE_UNIT_NAME = "MoviePUTEST";
 
-    private static MovieDao dao;
+    private MovieDao dao;
 
     @ClassRule
     public static EntityManagerResource emr
             = new EntityManagerResource(PERSISTENCE_UNIT_NAME);
 
-    @BeforeClass
-    public static void setUpClass() {
+    @Before
+    public void setUp() {
         dao = new MovieDaoImpl();
         Deencapsulation.setField(dao, emr.getEntityManager());
     }
@@ -40,7 +40,7 @@ public class MovieDaoImplTest {
             executeQuery("DROP TABLE MOVIE_CRITERIA");
             executeQuery("CREATE TABLE MOVIE_CRITERIA(ID INTEGER not null primary key, NAME VARCHAR2(50) not null, ACTORS VARCHAR2(200) not null)");
         }
-        
+
         @Override
         protected IDataSet createDataSet()
                 throws Exception {

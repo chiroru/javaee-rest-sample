@@ -1,9 +1,5 @@
 package jp.co.ctc_g.javaee_rest_sample.util.junit;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.Properties;
-import jp.co.ctc_g.javaee_rest_sample.util.common.resources.ClassPathPropertyLoader;
 import org.junit.internal.runners.statements.InvokeMethod;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
@@ -54,6 +50,14 @@ public class DBTestRunner
             tearDownOperation(dbOperation, testMethod);
             dbOperation.dbOperationEnd();
             L.info(getTestClass().getName() + "#" + testMethod.getName() + " [end]");
+        }
+    }
+
+    protected void processTestDate(DBOperation dbOperation, FrameworkMethod testMethod) {
+        TestDate testData = testMethod.getAnnotation(TestDate.class);
+        TestDataLoader loader = new TestDataLoader(testData.value());
+        for (String query : loader.load()) {
+            dbOperation.executeQuery(query);
         }
     }
 

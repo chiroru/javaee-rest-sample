@@ -16,8 +16,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-@Category(IntegrationTest.class)
-public class MovieServiceImplIntegrationTest {
+//@Category(IntegrationTest.class)
+public class MovieServiceImplIntegrationTestBackup {
 
     private static EJBContainer ec=null;
     private static Context ctx=null;

@@ -17,8 +17,8 @@ import static org.hamcrest.CoreMatchers.*;
 import org.junit.Ignore;
 import org.junit.experimental.categories.Category;
 
-@Category(IntegrationTest.class)
-public class MovieDaoImplIntegrationTest {
+//@Category(IntegrationTest.class)
+public class MovieDaoImplIntegrationTestBackup {
 
     private static EJBContainer ec=null;
     private static Context ctx=null;

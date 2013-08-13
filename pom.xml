@@ -27,23 +27,17 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.glassfish.main.extras</groupId>
             <artifactId>glassfish-embedded-all</artifactId>
             <version>4.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.glassfish.jersey.test-framework.providers</groupId>
-          <artifactId>jersey-test-framework-provider-simple</artifactId>
-          <version>2.1</version>
-          <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>com.googlecode.jmockit</groupId>
@@ -74,6 +68,24 @@
             <artifactId>jcl-over-slf4j</artifactId>
             <version>1.7.5</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>1.8.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.1.2</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>oracle.jdbc</groupId>
@@ -118,9 +130,9 @@
                     <source>1.7</source>
                     <target>1.7</target>
                     <showDeprecation>true</showDeprecation>
-                    <compilerArguments>
+<!--                    <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
-                    </compilerArguments>
+                    </compilerArguments>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -188,7 +200,7 @@
                         </goals>
                         <configuration>
                             <includes>
-                                <include>**/*IntegrationTestA.class</include>
+                                <include>**/*sampleIntegrationTest.class</include>
                             </includes>
                         </configuration>
                     </execution>
@@ -275,78 +287,42 @@
                     </execution>
                 </executions>
             </plugin>
-<!--      <plugin>
-        <groupId>org.glassfish.maven.plugin</groupId>
-        <artifactId>maven-glassfish-plugin</artifactId>
-        <version>2.1</version>
-        <configuration>
-           ドメイン作成時に指定したユーザ 
-          <user>admin</user>
-           GlassFishのインストール先 
-          <glassfishDirectory>C:/app/glassfish3</glassfishDirectory>
-           ドメイン作成時に指定したパスワード 
-          <adminPassword>admin</adminPassword>
-          <debug>true</debug>
-          <echo>true</echo>
-          <components>
-          <component>
-          <name>${project.artifactId}</name>
-          <artifact>${project.build.directory}/${project.build.finalName}.war</artifact>
-          </component>
-          </components>
-          <domain>
-            <name>my_domain</name>
-            <adminPort>4848</adminPort>
-          </domain>
-        </configuration>
-      </plugin>-->
-<!--            <plugin>
+            <plugin>
                 <groupId>org.glassfish.embedded</groupId>
                 <artifactId>maven-embedded-glassfish-plugin</artifactId>
                 <version>4.0</version>
                 <configuration>
                     <goalPrefix>embedded-glassfish</goalPrefix>
-                    <app>${basedir}/target/javaee-rest-sample-1.0-SNAPSHOT.war</app>
+                    <app>target/javaee-rest-sample-1.0-SNAPSHOT.war</app>
                     <name>test</name>
-                    <contextRoot>test</contextRoot>
-                    <ports>
-                        <http-listener>8080</http-listener>
-                        <https-listener>8181</https-listener>
-                    </ports>
                     <autoDelete>true</autoDelete>
-                    <configFile>${basedir}/src/test/resources/domain.xml</configFile>
+                    <port>8080</port>
+                    <libraries>${basedir}/m2repo/ojdbc6.jar</libraries>
+                    <commands>
+                        <command>create-jdbc-connection-pool --datasourceclassname oracle.jdbc.pool.OracleDataSource --restype javax.sql.DataSource --property user=TEST:password=TEST:url="jdbc:oracle:thin:@127.0.0.1:1521:XE" oracle-pool</command>
+                        <command>create-jdbc-resource --connectionpoolid oracle-pool jdbc/oracle</command>
+                    </commands>
                 </configuration>
                 <executions>
-           <execution>
-              <id>start-glassfish</id>
-              <phase>pre-integration-test</phase>
-              <goals>
-                 <goal>start</goal>
-              </goals>
-           </execution>
-           <execution>
-              <id>glassfish-deploy</id>
-              <phase>pre-integration-test</phase>
-              <goals>
-                 <goal>deploy</goal>
-              </goals>
-           </execution>
-           <execution>
-              <id>glassfish-undeploy</id>
-              <phase>post-integration-test</phase>
-              <goals>
-                 <goal>undeploy</goal>
-              </goals>
-           </execution>
-           <execution>
-              <id>stop-glassfish</id>
-              <phase>post-integration-test</phase>
-              <goals>
-                 <goal>stop</goal>
-              </goals>
-           </execution>
-        </executions>
-            </plugin>-->
+                    <execution>
+                        <id>setup-for-pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                            <goal>admin</goal>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>setup-for-post-integration-test</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>undeploy</goal>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>

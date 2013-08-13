@@ -117,7 +117,7 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
-                    <showDeprecation>false</showDeprecation>
+                    <showDeprecation>true</showDeprecation>
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>

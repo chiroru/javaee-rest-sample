@@ -16,8 +16,8 @@ import org.junit.experimental.categories.Category;
 
 public class GlassFishEmbeddedServerManager {
 
-//    @BeforeClass
-//    public static void setUpClass() {
+    @BeforeClass
+    public static void setUpClass() {
 //        try {
 //            GlassFishProperties glassfishProperties = new GlassFishProperties();
 //            glassfishProperties.setPort("http-listener", 8080);
@@ -48,7 +48,7 @@ public class GlassFishEmbeddedServerManager {
 //        } catch (GlassFishException e) {
 //            e.printStackTrace();
 //        }
-//    }
+    }
 
     @Test
     public void test() {

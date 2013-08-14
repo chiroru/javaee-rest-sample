@@ -4,7 +4,6 @@ import java.util.List;
 import jp.co.ctc_g.javaee_rest_sample.util.integration.dao.EntityManagerResource;
 import jp.co.ctc_g.javaee_rest_sample.service.domain.Movie;
 import jp.co.ctc_g.javaee_rest_sample.util.integration.dao.DBUnitTestResource;
-import jp.co.ctc_g.javaee_rest_sample.util.junit.DBTestRunner;
 import mockit.Deencapsulation;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -15,9 +14,7 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-@RunWith(DBTestRunner.class)
 public class MovieDaoImplTest {
 
     private final static String PERSISTENCE_UNIT_NAME = "MoviePUTEST";

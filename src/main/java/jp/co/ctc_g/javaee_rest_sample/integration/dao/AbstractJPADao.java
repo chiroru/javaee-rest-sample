@@ -1,0 +1,72 @@
+package jp.co.ctc_g.javaee_rest_sample.integration.dao;
+
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+
+public class AbstractJPADao<T extends Serializable>
+        implements JPADao {
+
+    @PersistenceContext
+    protected EntityManager em;
+
+    private Class<T> entityClazz;
+
+    public AbstractJPADao(Class<T> entityClazz) {
+        this.entityClazz = entityClazz;
+    }
+
+    @Override
+    public T findById(long id) {
+        return em.find(entityClazz, id);
+    }
+
+    @Override
+    public long countAll() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        cq.select(cb.count(cq.from(entityClazz)));
+        TypedQuery<Long> query = em.createQuery(cq);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public List<T> findAll() {
+        return em.createQuery("from" + entityClazz.getName()).getResultList();
+    }
+
+    @Override
+    public List<T> findAllWithRange(int maxResults, int firstResult) {
+        CriteriaQuery<T> cq = em.getCriteriaBuilder().createQuery(entityClazz);
+        cq.select(cq.from(entityClazz));
+        TypedQuery<T> q = em.createQuery(cq);
+        q.setMaxResults(maxResults);
+        q.setFirstResult(firstResult);
+        return q.getResultList();
+    }
+
+    @Override
+    public void regist(Serializable entity) {
+        em.persist(entity);
+    }
+
+    @Override
+    public void update(Serializable entity) {
+        em.merge(entity);
+    }
+
+    @Override
+    public void remove(Serializable entity) {
+        em.remove(entity);
+    }
+
+    @Override
+    public void removeById(long id) {
+        em.remove(findById(id));
+    }
+
+}

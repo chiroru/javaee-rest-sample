@@ -1,7 +1,5 @@
 package jp.co.ctc_g.javaee_rest_sample.presentation;
 
-import jp.co.ctc_g.javaee_rest_sample.presentation.*;
-import jp.co.ctc_g.javaee_rest_sample.util.integration.IntegrationTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -9,10 +7,12 @@ import static com.jayway.restassured.RestAssured.*;
 import com.jayway.restassured.response.Response;
 import java.util.List;
 import java.util.Map;
+import jp.co.ctc_g.javaee_rest_sample.util.integration.IntegrationTest;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 
+@Category(IntegrationTest.class)
 public class SampleTest {
 
     private final static String BASE_URI = "http://127.0.0.1:8080";

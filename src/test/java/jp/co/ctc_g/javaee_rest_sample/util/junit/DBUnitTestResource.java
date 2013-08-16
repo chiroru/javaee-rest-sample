@@ -1,4 +1,4 @@
-package jp.co.ctc_g.javaee_rest_sample.util.integration.dao;
+package jp.co.ctc_g.javaee_rest_sample.util.junit;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,7 +16,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 public abstract class DBUnitTestResource
-        extends AbstractDatabaseTester 
+        extends AbstractDatabaseTester
         implements TestRule {
 
     private final static String PROPERTY_PATH = "jdbc.properties";
@@ -24,7 +24,7 @@ public abstract class DBUnitTestResource
     private final String connectionUrl;
     private final String username;
     private final String password;
-    
+
     public DBUnitTestResource() {
         try {
             ClassPathPropertyLoader loader = ClassPathPropertyLoader.getInstance();
@@ -32,11 +32,12 @@ public abstract class DBUnitTestResource
             connectionUrl = props.getProperty("jdbc.url");
             username = props.getProperty("jdbc.username");
             password = props.getProperty("jdbc.password");
+            setSchema(props.getProperty("jdbc.schema"));
         } catch (IOException e) {
             throw new AssertionError(e);
         }
     }
-    
+
     @Override
     public IDatabaseConnection getConnection()
             throws Exception {
@@ -60,16 +61,19 @@ public abstract class DBUnitTestResource
         conn.commit();
         conn.close();
     }
-    
-    protected void before() throws Exception {}
-    
-    protected void after() throws Exception {}
-    
+
+    protected void before() throws Exception {
+    }
+
+    protected void after() throws Exception {
+    }
+
     abstract protected IDataSet createDataSet() throws Exception;
-    
+
     @Override
     public Statement apply(final Statement statement,
             Description description) {
+        DataSet dataSet = description.getAnnotation(DataSet.class);
         return new Statement() {
             @Override
             public void evaluate()

@@ -24,12 +24,12 @@ public class MovieServiceImpl
     }
 
     @Override
-    public void update() {
-        dao.update();
+    public void update(Movie entity) {
+        dao.update(entity);
     }
 
     @Override
-    public void remove() {
-        dao.remove();
+    public void remove(Movie entity) {
+        dao.remove(entity);
     }
 }

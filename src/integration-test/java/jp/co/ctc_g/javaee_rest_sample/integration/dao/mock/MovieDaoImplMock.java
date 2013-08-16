@@ -13,25 +13,46 @@ public class MovieDaoImplMock
         implements MovieDao {
 
     @Override
-    public Movie findById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public List<Movie> findAll() {
         List<Movie> movieList = new ArrayList<>();
-        Movie m = new Movie(1, "test", "test");
+        Movie m = new Movie(new Long(1), "test", "test");
         movieList.add(m);
         return movieList;
     }
 
     @Override
-    public void update() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Movie findById(long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void remove() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public long countAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public List<Movie> findAllWithRange(int maxResults, int firstResult) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void regist(Movie entity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void update(Movie entity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void remove(Movie entity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeById(long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

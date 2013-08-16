@@ -7,11 +7,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 public class AbstractJPADao<T extends Serializable>
-        implements JPADao {
+        implements JPADao<T> {
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "MoviePU")
     protected EntityManager em;
 
     private Class<T> entityClazz;
@@ -36,7 +37,12 @@ public class AbstractJPADao<T extends Serializable>
 
     @Override
     public List<T> findAll() {
-        return em.createQuery("from" + entityClazz.getName()).getResultList();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery listCriteria = builder.createQuery(entityClazz);
+        Root<T> listRoot = listCriteria.from(entityClazz);
+        listCriteria.select(listRoot);
+        TypedQuery<T> query = em.createQuery(listCriteria);
+        return query.getResultList();
     }
 
     @Override
@@ -50,17 +56,17 @@ public class AbstractJPADao<T extends Serializable>
     }
 
     @Override
-    public void regist(Serializable entity) {
+    public void regist(T entity) {
         em.persist(entity);
     }
 
     @Override
-    public void update(Serializable entity) {
+    public void update(T entity) {
         em.merge(entity);
     }
 
     @Override
-    public void remove(Serializable entity) {
+    public void remove(T entity) {
         em.remove(entity);
     }
 

@@ -9,8 +9,8 @@ public interface MovieService {
 
     List<Movie> findAll();
 
-    void remove();
+    void remove(Movie entity);
 
-    void update();
+    void update(Movie entity);
     
 }

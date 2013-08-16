@@ -18,11 +18,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Movie.findById", query = "SELECT m FROM Movie m WHERE m.id = :id"),
     @NamedQuery(name = "Movie.findByName", query = "SELECT m FROM Movie m WHERE m.name = :name"),
     @NamedQuery(name = "Movie.findByActors", query = "SELECT m FROM Movie m WHERE m.actors = :actors")})
-public class Movie implements Serializable {
+public class Movie
+        implements Serializable {
+    
     private static final long serialVersionUID = 1L;
+
     @Id
     @NotNull
-    private Integer id;
+    private Long id;
     
     @NotNull
     @Size(min = 1, max = 50)
@@ -35,21 +38,21 @@ public class Movie implements Serializable {
     public Movie() {
     }
 
-    public Movie(Integer id) {
+    public Movie(Long id) {
         this.id = id;
     }
 
-    public Movie(Integer id, String name, String actors) {
+    public Movie(Long id, String name, String actors) {
         this.id = id;
         this.name = name;
         this.actors = actors;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

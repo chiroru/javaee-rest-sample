@@ -32,7 +32,7 @@ public class MovieServiceImplTest {
             throws Exception {
         new Expectations() {{
             dao.findAll();
-            result = Arrays.asList(new Movie(1, "test", "test"));
+            result = Arrays.asList(new Movie(new Long(1), "test", "test"));
         }};
         
         List<Movie> actual = dao.findAll();

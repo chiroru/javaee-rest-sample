@@ -19,6 +19,7 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 
+@DataSetFixture({"/fixtures.xml", "/fixtures_1.xml"})
 public class MovieDaoImplTest {
 
     private final static String PERSISTENCE_UNIT_NAME = "MoviePUTEST";

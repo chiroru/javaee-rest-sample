@@ -14,13 +14,28 @@ public class MovieServiceImpl
     private MovieDao dao;
 
     @Override
-    public Movie findById(Integer id) {
+    public Movie findById(long id) {
         return dao.findById(id);
+    }
+
+    @Override
+    public long countAll() {
+        return dao.countAll();
     }
 
     @Override
     public List<Movie> findAll() {
         return dao.findAll();
+    }
+
+    @Override
+    public List<Movie> findAllWithRange(int maxResults, int firstResult) {
+        return dao.findAllWithRange(maxResults, firstResult);
+    }
+
+    @Override
+    public void regist(Movie entity) {
+        dao.regist(entity);
     }
 
     @Override
@@ -31,5 +46,10 @@ public class MovieServiceImpl
     @Override
     public void remove(Movie entity) {
         dao.remove(entity);
+    }
+
+    @Override
+    public void removeById(long id) {
+        dao.removeById(id);
     }
 }

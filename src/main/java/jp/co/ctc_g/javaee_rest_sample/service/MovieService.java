@@ -5,12 +5,19 @@ import jp.co.ctc_g.javaee_rest_sample.service.domain.Movie;
 
 public interface MovieService {
 
-    Movie findById(Integer id);
+    Movie findById(long id);
+
+    long countAll();
 
     List<Movie> findAll();
 
-    void remove(Movie entity);
+    List<Movie> findAllWithRange(int maxResults, int firstResult);
+
+    void regist(Movie entity);
 
     void update(Movie entity);
-    
+
+    void remove(Movie entity);
+
+    void removeById(long id);
 }

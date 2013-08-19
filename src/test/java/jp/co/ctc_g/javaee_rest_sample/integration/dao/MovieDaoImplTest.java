@@ -8,18 +8,26 @@ import jp.co.ctc_g.javaee_rest_sample.service.domain.Movie;
 import jp.ddo.chiroru.utils.junit.resource.DBUnitTestResource;
 import jp.ddo.chiroru.utils.junit.resource.DataSetFixture;
 import mockit.Deencapsulation;
+import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
+import static jp.co.ctc_g.javaee_rest_sample.util.junit.ITableMatcher.*;
 
 public class MovieDaoImplTest {
+
+    private final static Logger L = LoggerFactory.getLogger(MovieDaoImplTest.class);
 
     private final static String PERSISTENCE_UNIT_NAME = "MoviePUTEST";
 
@@ -52,19 +60,11 @@ public class MovieDaoImplTest {
     };
 
     @Test
-    @DataSetFixture({"/fixtures.xml", "/fixtures_1.xml"})
+    @DataSetFixture({"/jp/co/ctc_g/javaee_rest_sample/integration/dao/MovieDaoImplTest-TestData.xml"})
     public void DBに登録済みの全データを検索できる()
             throws Exception {
         List<Movie> actual = dao.findAll();
-        assertThat(actual.size(), is(2));
-    }
-
-    @Test
-    @DataSetFixture({"/fixtures.xml", "/fixtures_1.xml"})
-    public void DBに登録済みの全データを検索できる2()
-            throws Exception {
-        List<Movie> actual = dao.findAll();
-       assertThat(actual.size(), is(2));
+        assertThat(actual.size(), is(1));
     }
 
     @Test
@@ -94,8 +94,41 @@ public class MovieDaoImplTest {
         }
         transaction.commit();
         stopwatch.stop();
-        System.out.println("★★★★★" + stopwatch);
+        L.debug("経過時間 : " + stopwatch);
         long actual = dao.countAll();
         assertThat(String.valueOf(actual), is("10000"));
+    }
+
+    @Test
+    @DataSetFixture("/jp/co/ctc_g/javaee_rest_sample/integration/dao/MovieDaoImplTest-TestData.xml")
+    public void 登録済みのデータを更新できる()
+            throws Exception {
+        EntityTransaction transaction = emr.getEntityManager().getTransaction();
+        transaction.begin();
+        Movie m = dao.findById(1);
+        m.setName("Updated Name");
+        m.setActors("Updated Actors");
+        dao.update(m);
+        transaction.commit();
+        // expected
+        IDataSet expectedDataSet = new FlatXmlDataSet(this.getClass().getResourceAsStream("/jp/co/ctc_g/javaee_rest_sample/integration/dao/MovieDaoImplTest-ExpectedTestData.xml"));
+        ITable expectedTable = expectedDataSet.getTable("movie_criteria");
+        // actual
+        IDatabaseConnection conn = dataResource.getConnection();
+        IDataSet databaseDataSet = conn.createDataSet();
+        ITable actualTable = databaseDataSet.getTable("movie_criteria");
+        assertThat(actualTable, tableOf(expectedTable));
+    }
+
+    @Test
+    @DataSetFixture("/jp/co/ctc_g/javaee_rest_sample/integration/dao/MovieDaoImplTest-TestData.xml")
+    public void DBに登録済のデータを削除できる()
+            throws Exception {
+        EntityTransaction transaction = emr.getEntityManager().getTransaction();
+        transaction.begin();
+        dao.removeById(1);
+        transaction.commit();
+        List<Movie> actual = dao.findAll();
+        assertThat(actual.size(), is(0));
     }
 }

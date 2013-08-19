@@ -1,4 +1,4 @@
-package jp.co.ctc_g.javaee_rest_sample.util.integration.dao;
+package jp.co.ctc_g.javaee_rest_sample.util.junit;
 
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.DatabaseUnitRuntimeException;

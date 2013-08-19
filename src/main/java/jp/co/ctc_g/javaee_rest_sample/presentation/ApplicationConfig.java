@@ -3,6 +3,7 @@ package jp.co.ctc_g.javaee_rest_sample.presentation;
 import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+import org.glassfish.jersey.filter.LoggingFilter;
 
 @ApplicationPath("webresources")
 public class ApplicationConfig
@@ -17,6 +18,7 @@ public class ApplicationConfig
             // Class jsonProvider = Class.forName("org.glassfish.jersey.moxy.json.MoxyJsonFeature");
             // Class jsonProvider = Class.forName("org.glassfish.jersey.jettison.JettisonFeature");
             resources.add(jsonProvider);
+            resources.add(LoggingFilter.class);
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(getClass().getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }

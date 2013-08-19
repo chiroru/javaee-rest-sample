@@ -1,6 +1,7 @@
 package jp.co.ctc_g.javaee_rest_sample.integration.dao;
 
 import com.google.common.base.Stopwatch;
+import java.io.InputStream;
 import java.util.List;
 import javax.persistence.EntityTransaction;
 import jp.co.ctc_g.javaee_rest_sample.util.integration.dao.EntityManagerResource;
@@ -24,6 +25,8 @@ import org.slf4j.LoggerFactory;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 import static jp.co.ctc_g.javaee_rest_sample.util.junit.ITableMatcher.*;
+import org.dbunit.dataset.xml.FlatXmlProducer;
+import org.xml.sax.InputSource;
 
 public class MovieDaoImplTest {
 
@@ -106,7 +109,9 @@ public class MovieDaoImplTest {
         dao.update(m);
         transaction.commit();
         // expected
-        IDataSet expectedDataSet = new FlatXmlDataSet(this.getClass().getResourceAsStream("/jp/co/ctc_g/javaee_rest_sample/integration/dao/MovieDaoImplTest-ExpectedTestData.xml"));
+        InputStream is = this.getClass().getResourceAsStream("/jp/co/ctc_g/javaee_rest_sample/integration/dao/MovieDaoImplTest-ExpectedTestData.xml");
+        IDataSet expectedDataSet =
+                new FlatXmlDataSet(new FlatXmlProducer(new InputSource(is)));
         ITable expectedTable = expectedDataSet.getTable("movie_criteria");
         // actual
         IDatabaseConnection conn = dataResource.getConnection();

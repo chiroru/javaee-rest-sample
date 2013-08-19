@@ -70,10 +70,13 @@ public class DBOperation {
             switch (type) {
                 case POST_COMMIT:
                     conn.commit();
+                    break;
                 case POST_ROLLBACK:
                     conn.rollback();
+                    break;
                 default:
                     conn.commit();
+                    break;
             }
         } catch (SQLException e) {
             throw new RuntimeException("データベースのトランザクション処理に失敗しました.");

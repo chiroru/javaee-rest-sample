@@ -18,7 +18,7 @@ public class DataSetFixtureProcessor {
     }
 
     private Map<DataSetType, DataSetGenerator> getGenerators() {
-        ImmutableMap.Builder builder = ImmutableMap.builder();
+        ImmutableMap.Builder<DataSetType, DataSetGenerator> builder = ImmutableMap.builder();
         builder.put(DataSetType.FlatXml, new FlatXmlDataSetGenerator());
         return builder.build();
     }

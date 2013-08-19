@@ -34,7 +34,7 @@ public class SampleTest {
         for (Object o : list) {
             System.out.println(o.toString());
         }
-        Map m = get("/webresources/movies").path("[0]");
+        Map<Object, Object> m = get("/webresources/movies").path("[0]");
         for (Object key : m.keySet()) {
             System.out.println("[" + key + "] : (" + m.get(key) + ")");
         }

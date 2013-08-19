@@ -11,10 +11,10 @@ public class DataSetFixtureAnnotationParser {
     private boolean isAnnotatedAtClass;
     private IDataSet globalDataSet;
 
-    public DataSetFixtureAnnotationParser(Class testTargetClass) {
+    public DataSetFixtureAnnotationParser(Class<?> testTargetClass) {
 
         DataSetFixture dataSetFixture =
-                (DataSetFixture) testTargetClass.getAnnotation(DataSetFixture.class);
+                testTargetClass.getAnnotation(DataSetFixture.class);
         if (dataSetFixture != null) {
             isAnnotatedAtClass = true;
             globalDataSet = generateDataSet(dataSetFixture);

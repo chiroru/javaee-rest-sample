@@ -40,7 +40,7 @@ public class AbstractJPADao<T extends Serializable>
     @Override
     public List<T> findAll() {
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery listCriteria = builder.createQuery(entityClazz);
+        CriteriaQuery<T> listCriteria = builder.createQuery(entityClazz);
         Root<T> listRoot = listCriteria.from(entityClazz);
         listCriteria.select(listRoot);
         TypedQuery<T> query = em.createQuery(listCriteria);

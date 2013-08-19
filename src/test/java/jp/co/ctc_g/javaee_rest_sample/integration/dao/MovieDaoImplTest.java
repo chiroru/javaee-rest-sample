@@ -52,11 +52,6 @@ public class MovieDaoImplTest {
             executeQuery("DROP TABLE MOVIE_CRITERIA");
             executeQuery("CREATE TABLE MOVIE_CRITERIA(ID INTEGER not null primary key, NAME VARCHAR2(50) not null, ACTORS VARCHAR2(200) not null)");
         }
-//        @Override
-//        protected IDataSet createDataSet()
-//                throws Exception {
-//            return new FlatXmlDataSetBuilder().build(getClass().getResourceAsStream("/fixtures.xml"));
-//        }
     };
 
     @Test

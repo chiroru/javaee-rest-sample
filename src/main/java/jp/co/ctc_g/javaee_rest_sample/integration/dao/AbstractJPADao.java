@@ -9,6 +9,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import static com.google.common.base.Preconditions.*;
+
 public class AbstractJPADao<T extends Serializable>
         implements JPADao<T> {
 
@@ -47,6 +49,7 @@ public class AbstractJPADao<T extends Serializable>
 
     @Override
     public List<T> findAllWithRange(int maxResults, int firstResult) {
+        // TODO : maxResultsとfirstResultのデフォルト値をどうするか要検討.
         CriteriaQuery<T> cq = em.getCriteriaBuilder().createQuery(entityClazz);
         cq.select(cq.from(entityClazz));
         TypedQuery<T> q = em.createQuery(cq);
@@ -57,16 +60,19 @@ public class AbstractJPADao<T extends Serializable>
 
     @Override
     public void regist(T entity) {
+        checkNotNull(entity);
         em.persist(entity);
     }
 
     @Override
     public void update(T entity) {
+        checkNotNull(entity);
         em.merge(entity);
     }
 
     @Override
     public void remove(T entity) {
+        checkNotNull(entity);
         em.remove(entity);
     }
 

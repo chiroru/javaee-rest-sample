@@ -1,5 +1,6 @@
 package jp.co.ctc_g.javaee_rest_sample.util.junit;
 
+import jp.ddo.chiroru.utils.junit.resource.DataSetFixtureAnnotationParser;
 import org.junit.internal.runners.statements.InvokeMethod;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
@@ -13,10 +14,13 @@ public class DBTestRunner
         extends BlockJUnit4ClassRunner {
 
     protected static Logger L = LoggerFactory.getLogger(DBTestRunner.class);
-    
+
+    private DataSetFixtureAnnotationParser annotationParser;
+
     public DBTestRunner(Class<?> clazz)
             throws InitializationError {
         super(clazz);
+        annotationParser = new DataSetFixtureAnnotationParser(clazz);
     }
 
     @Override

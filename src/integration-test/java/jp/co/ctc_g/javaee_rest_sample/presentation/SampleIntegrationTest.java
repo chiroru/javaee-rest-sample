@@ -28,7 +28,8 @@ public class SampleIntegrationTest {
 
     @Test
     public void sampleTest() throws Exception {
-        Response resp = given().contentType("application/json; charset=UTF-8").get("/webresources/movies");
+        Response resp = given().contentType("application/xml; charset=UTF-8").get("/webresources/movies");
+        assertThat(resp.statusCode(), is(200));
         System.out.println(resp.getBody().asString());
         // {"id":1,"name":"The Matrix","actors":"Keanu Reeves, Laurence Fishburne, Carrie-Ann Moss"}
         Map<Object, Object> m = get("/webresources/movies").path("[0]");
@@ -45,6 +46,7 @@ public class SampleIntegrationTest {
             throws Exception {
         Movie m = new Movie(new Long(10), "Regist Test", "Regist Test");
         Response r = given().contentType("application/json; charset=UTF-8").body(m).post("/webresources/movies");
+        assertThat(r.getStatusCode(), is(200));
         System.out.println(r.getBody().toString());
     }
 
@@ -55,6 +57,7 @@ public class SampleIntegrationTest {
         m.setName(m.getName() + " modified");
         Response r = given().contentType("application/json; charset=UTF-8").body(m).put("/webresources/movies");
         System.out.println(r.getBody().toString());
+        assertThat(r.getStatusCode(), is(200));
     }
 
     @Test
@@ -62,5 +65,6 @@ public class SampleIntegrationTest {
             throws Exception {
         Response r = delete("/webresources/movies/3");
         System.out.println(r.getBody().toString());
+        assertThat(r.getStatusCode(), is(200));
     }
 }
